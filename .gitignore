@@ -1,0 +1,9 @@
+a.out
+*.gc*
+*.a
+*.log
+*.o
+unit_tests
+*.swp
+*.json
+my_sudo
