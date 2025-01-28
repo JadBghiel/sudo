@@ -9,6 +9,7 @@
     #define MY_SUDO
     #include <stdbool.h>
     #include "mylist.h"
+    #include "common_lib.h"
 typedef struct sudo_flags {
     char *user;
     char *group;
