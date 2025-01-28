@@ -12,22 +12,22 @@ static tuple_t flag_map[MAX_OPTION] = {
     [USER] =
     {
         .flag_char = 'u',
-        .add_flag = NULL,
+        .add_flag = add_user,
     },
     [GROUP] =
     {
         .flag_char = 'g',
-        .add_flag = NULL,
+        .add_flag = add_group,
     },
     [ENVIOURMENT] =
     {
         .flag_char = 'E',
-        .add_flag = NULL,
+        .add_flag = add_env,
     },
     [SHELL] =
     {
-        .flag_char = 'S',
-        .add_flag = NULL,
+        .flag_char = 's',
+        .add_flag = add_shell,
     },
 };
 

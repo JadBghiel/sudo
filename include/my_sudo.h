@@ -35,5 +35,12 @@ typedef struct sudo_flags {
     char *shell;
     linked_list_t *commands;
 } sudo_flags_t;
+
 sudo_flags_t *parse_flags(int ac, char **args);
+
+bool add_user(sudo_flags_t *current_flags, char *next_word);
+bool add_group(sudo_flags_t *current_flags, char *next_word);
+bool add_env(sudo_flags_t *current_flags, char *next_word);
+bool add_shell(sudo_flags_t *current_flags, char *next_word);
+
 #endif
