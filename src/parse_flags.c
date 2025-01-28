@@ -8,6 +8,29 @@
 #include "my_sudo.h"
 #include <stdlib.h>
 
+static tuple_t flag_map[MAX_OPTION] = {
+    [USER] =
+    {
+        .flag_char = 'u',
+        .add_flag = NULL,
+    },
+    [GROUP] =
+    {
+        .flag_char = 'g',
+        .add_flag = NULL,
+    },
+    [ENVIOURMENT] =
+    {
+        .flag_char = 'E',
+        .add_flag = NULL,
+    },
+    [SHELL] =
+    {
+        .flag_char = 'S',
+        .add_flag = NULL,
+    },
+};
+
 static void init_flags(sudo_flags_t *to_init)
 {
     to_init->env_flag = false;
@@ -20,6 +43,7 @@ static void init_flags(sudo_flags_t *to_init)
 
 int check_argument(int index, char **args, sudo_flags_t *flags)
 {
+    if (args[index][0] == '-')
     return 0;
 }
 

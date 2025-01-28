@@ -9,6 +9,24 @@
     #define MY_SUDO
     #include <stdbool.h>
     #include "mylist.h"
+
+typedef enum {
+    USER,
+    GROUP,
+    ENVIOURMENT,
+    SHELL,
+    MAX_OPTION,
+} sudo_options_t;
+
+typedef struct sudo_flags sudo_flags_t;
+
+typedef bool (*add_flag_fn)(sudo_flags_t *, char *);
+
+typedef struct tuple {
+    char flag_char;
+    add_flag_fn add_flag;
+} tuple_t;
+
 typedef struct sudo_flags {
     char *user;
     char *group;
