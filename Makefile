@@ -5,7 +5,8 @@
 ## Makefile
 ##
 
-SRC = src/main.c
+SRC = src/main.c \
+	src/parse_flags.c
 
 NAME = my_sudo
 TEST_BIN = unit_tests
