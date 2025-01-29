@@ -13,7 +13,7 @@
 static tuple_t flag_map[MAX_OPTION] = {
     [USER] =
     {
-        .abreviations =
+        .abbreviations =
             {
                 "-u",
                 "--user",
@@ -22,7 +22,7 @@ static tuple_t flag_map[MAX_OPTION] = {
     },
     [GROUP] =
     {
-        .abreviations =
+        .abbreviations =
             {
                 "-g",
                 "--group",
@@ -31,7 +31,7 @@ static tuple_t flag_map[MAX_OPTION] = {
     },
     [ENVIOURMENT] =
     {
-        .abreviations =
+        .abbreviations =
             {
                 "-E",
                 "--preserve-env",
@@ -40,7 +40,7 @@ static tuple_t flag_map[MAX_OPTION] = {
     },
     [SHELL] =
     {
-        .abreviations =
+        .abbreviations =
             {
                 "-s",
                 "--shell",
@@ -52,8 +52,8 @@ static tuple_t flag_map[MAX_OPTION] = {
 static add_flag_fn get_flag_fn(char *arg)
 {
     for (int i = 0; i < MAX_OPTION; i++) {
-        if (!strcmp(flag_map[i].abreviations.abreviation, arg) || !strcmp(
-            flag_map[i].abreviations.full_flag, arg)) {
+        if (!strcmp(flag_map[i].abbreviations.abbreviation, arg) || !strcmp(
+            flag_map[i].abbreviations.full_flag, arg)) {
             return flag_map[i].add_flag;
         }
     }
