@@ -6,20 +6,16 @@
 */
 
 #include "my_sudo.h"
+#include <stdio.h>
 
+int main(int ac, char **av)
+{
+    sudo_flags_t *a;
 
-// PERHAPS ADD THE -h FLAG IN ARRAY OF THE OTHER FLAGS = WOULD MAKE IT EASIER AND MORE MODULABLE
-//void usage(void)
-//{
-//    printf("usage: ./my_sudo -h\nusage: ./my_sudo [-ugEs] [command [args ...]]");
-//}
-//
-//int main(int argc, char **argv)
-//{
-//    if (argc > 4) {
-//        my_put_error("too many arguments");
-//        return 84;
-//    }
-//    if ()
-//    return 0;
-//}
+    if (ac < 2)
+        return 84;
+    for (int i = 0; a->commands[i]; i++)
+        printf("%s ", a->commands[i]);
+    printf("\n");
+    return 0;
+}
