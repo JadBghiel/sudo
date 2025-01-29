@@ -11,6 +11,7 @@
     #include "mylist.h"
     #include "common_lib.h"
 
+
 typedef enum {
     USER,
     GROUP,
@@ -48,20 +49,26 @@ bool add_group(sudo_flags_t *current_flags, char *word, char *next);
 bool add_env(sudo_flags_t *current_flags, char *word, char *next);
 bool add_shell(sudo_flags_t *current_flags, char *word, char *next);
 
-//sudoers.c:
+//sudoers/sudoers.c:
 int check_user_alias(const char *username, const char *alias);
-int is_username_in_line(const char *line, const char *username);
 int search_alias_in_file(FILE *file, const char *username, const char *alias);
+int is_username_in_line(const char *line, const char *username);
 int authenticate_user(const char *username);
 const char *get_hashed_password(const char *username);
+
+//sudoers/password.c:
 int validate_password(const char *entered_password,
     const char *encrypted_password);
 void execute_command(const char *username, char **const argv);
+uid_t get_uid_from_passwd(const char *username);
 void run_as_user(const char *username, char **const argv);
+
+//sudoers/users.c:
 int get_user_aliases(char aliases[][256], int max_aliases);
-int check_user_in_any_alias(const char *username, char aliases[][256], 
+int check_user_in_any_alias(const char *username, char aliases[][256],
     int num_aliases);
-
-
+void fill_command(char **argv, int start, int argc, char **command);
+void parse_arguments(int argc, char **argv, char **target_user,
+    char **command);
 
 #endif

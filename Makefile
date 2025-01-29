@@ -8,7 +8,9 @@
 SRC = src/main.c \
 	src/parse_flags.c \
 	src/process_flags.c \
-	src/sudoers.c
+	src/sudoers/password.c \
+	src/sudoers/sudoers.c \
+	src/sudoers/users.c
 
 NAME = my_sudo
 TEST_BIN = unit_tests
