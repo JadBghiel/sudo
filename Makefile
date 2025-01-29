@@ -8,13 +8,14 @@
 SRC = src/main.c \
 	src/parse_flags.c \
 	src/process_flags.c
+	src/sudoers.c
 
 NAME = my_sudo
 TEST_BIN = unit_tests
 
 CC = gcc
 CFLAGS = -Wall
-LDFLAGS = -I./include/ -L./lib/ -llinked_lists
+LDFLAGS = -I./include/ -L./lib/ -llinked_lists -lcrypt
 TEST_LDFLAGS = $(LDFLAGS) --coverage -lcriterion
 
 all: $(NAME)
@@ -33,6 +34,10 @@ fclean: clean
 	rm -f $(NAME)
 	rm -f $(TEST_BIN)
 	$(MAKE) -C ./lib/ fclean
+
+set_perm:
+	sudo chown root $(NAME)
+	sudo chmod u+s $(NAME)
 
 re: fclean $(NAME)
 
