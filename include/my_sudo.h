@@ -24,12 +24,12 @@ typedef struct sudo_flags sudo_flags_t;
 typedef bool (*add_flag_fn)(sudo_flags_t *, char *, char *);
 
 typedef struct full_flag {
-    char *abreviation;
+    char *abbreviation;
     char *full_flag;
 } full_flag_t;
 
 typedef struct tuple {
-    full_flag_t abreviations;
+    full_flag_t abbreviations;
     add_flag_fn add_flag;
 } tuple_t;
 
