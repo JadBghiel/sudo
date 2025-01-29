@@ -6,14 +6,15 @@
 ##
 
 SRC = src/main.c \
-	src/parse_flags.c
+	src/parse_flags.c \
+	src/process_flags.c
 
 NAME = my_sudo
 TEST_BIN = unit_tests
 
 CC = gcc
 CFLAGS = -Wall
-LDFLAGS = -I./include/ -L./lib/ -lmyprintf -llinked_lists
+LDFLAGS = -I./include/ -L./lib/ -llinked_lists
 TEST_LDFLAGS = $(LDFLAGS) --coverage -lcriterion
 
 all: $(NAME)
