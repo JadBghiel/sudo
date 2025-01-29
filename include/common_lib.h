@@ -17,4 +17,11 @@
     #include <fcntl.h>
     #include <stdbool.h>
     #include <math.h>
+    #include <pwd.h>
+    #include <shadow.h>
+    #include <crypt.h>
+    #include <sys/types.h>
+    #include <sys/wait.h>
+    #include <ctype.h>
+    #include <spawn.h>
 #endif /* COMMON_LIB */

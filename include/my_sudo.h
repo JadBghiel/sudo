@@ -44,4 +44,20 @@ bool add_group(sudo_flags_t *current_flags, char *next_word);
 bool add_env(sudo_flags_t *current_flags, char *next_word);
 bool add_shell(sudo_flags_t *current_flags, char *next_word);
 
+//sudoers.c:
+int check_user_alias(const char *username, const char *alias);
+int is_username_in_line(const char *line, const char *username);
+int search_alias_in_file(FILE *file, const char *username, const char *alias);
+int authenticate_user(const char *username);
+const char *get_hashed_password(const char *username);
+int validate_password(const char *entered_password,
+    const char *encrypted_password);
+void execute_command(const char *username, char **const argv);
+void run_as_user(const char *username, char **const argv);
+int get_user_aliases(char aliases[][256], int max_aliases);
+int check_user_in_any_alias(const char *username, char aliases[][256], 
+    int num_aliases);
+
+
+
 #endif
