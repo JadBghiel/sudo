@@ -10,46 +10,46 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static tuple_t flag_map[MAX_OPTION] = {
+static const tuple_t flag_map[MAX_OPTION] = {
     [USER] =
     {
         .abbreviations =
-            {
-                "-u",
-                "--user",
-            },
+        {
+            "-u",
+            "--user",
+        },
         .add_flag = add_user,
     },
     [GROUP] =
     {
         .abbreviations =
-            {
-                "-g",
-                "--group",
-            },
+        {
+            "-g",
+            "--group",
+        },
         .add_flag = add_group,
     },
     [ENVIOURMENT] =
     {
         .abbreviations =
-            {
-                "-E",
-                "--preserve-env",
-            },
+        {
+            "-E",
+            "--preserve-env",
+        },
         .add_flag = add_env,
     },
     [SHELL] =
     {
         .abbreviations =
-            {
-                "-s",
-                "--shell",
-            },
+        {
+            "-s",
+            "--shell",
+        },
         .add_flag = add_shell,
     },
 };
 
-static add_flag_fn get_flag_fn(char *arg)
+static add_flag_fn_t get_flag_fn(char *arg)
 {
     for (int i = 0; i < MAX_OPTION; i++) {
         if (!strcmp(flag_map[i].abbreviations.abbreviation, arg) || !strcmp(
@@ -90,7 +90,7 @@ static void validate_flags(sudo_flags_t *current)
 
 bool check_argument(int index, char **args, sudo_flags_t *flags)
 {
-    add_flag_fn current_fn = get_flag_fn(args[index]);
+    add_flag_fn_t current_fn = get_flag_fn(args[index]);
 
     if (!current_fn && (get_flag_fn(args[index - 1]) == flag_map[USER].add_flag
         || get_flag_fn(args[index - 1]) == flag_map[GROUP].add_flag))

@@ -22,7 +22,7 @@ typedef enum {
 
 typedef struct sudo_flags sudo_flags_t;
 
-typedef bool (*add_flag_fn)(sudo_flags_t *, char *, char *);
+typedef bool (*add_flag_fn_t)(sudo_flags_t *, char *, char *);
 
 typedef struct full_flag {
     char *abbreviation;
@@ -31,7 +31,7 @@ typedef struct full_flag {
 
 typedef struct tuple {
     full_flag_t abbreviations;
-    add_flag_fn add_flag;
+    add_flag_fn_t add_flag;
 } tuple_t;
 
 typedef struct sudo_flags {
