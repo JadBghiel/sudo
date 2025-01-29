@@ -7,7 +7,7 @@
 
 SRC = src/main.c \
 	src/parse_flags.c \
-	src/process_flags.c
+	src/process_flags.c \
 	src/sudoers.c
 
 NAME = my_sudo
