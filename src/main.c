@@ -20,9 +20,11 @@
 //}
 int main(int argc, char **argv, char **env)
 {
-    sudo_flags_t *a = parse_arguments(argc, argv);
+    sudo_flags_t *flags = parse_arguments(argc, argv);
 
-    printf("%s\n", a->commands);
+    validate_user(flags);
+    printf("%s\n", flags->commands);
+    printf("user: %s\n", flags->user);
     return 0;
 }
 /*

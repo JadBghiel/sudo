@@ -69,5 +69,7 @@ int check_user_in_any_alias(const char *username, char aliases[][256],
     int num_aliases);
 void fill_command(char **argv, int start, int argc, char **command);
 sudo_flags_t *parse_arguments(int argc, char **argv);
+void destroy_flags(sudo_flags_t *to_destroy);
+int validate_user(sudo_flags_t *flags);
 
 #endif
