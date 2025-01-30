@@ -48,21 +48,16 @@ void fill_command(char **argv, int start, int argc, char **command)
     command[cmd_index] = NULL;
 }
 
-void parse_arguments(int argc, char **argv, char **target_user, char **command)
+sudo_flags_t *parse_arguments(int argc, char **argv)
 {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s [-u user] command\n", argv[0]);
-        exit(1);
+        fprintf(stderr, "Usage: %s [-ugEs] command [ARGS]\n", argv[0]);
+        exit(84);
     }
-    if (strcmp(argv[1], "-u") == 0) {
-        if (argc < 4) {
-            fprintf(stderr, "Usage: %s [-u user] command\n", argv[0]);
-            exit(1);
-        }
-        *target_user = argv[2];
-        fill_command(argv, 3, argc, command);
-    } else {
-        *target_user = getlogin();
-        fill_command(argv, 1, argc, command);
+    if (!strcmp(argv[1], "-h")) {
+        printf("usage: ./my_sudo -h\n");
+        printf("usage: ./my_sudo [-ugEs] [command [args ...]]\n");
+        exit(0);
     }
+    return parse_flags(argc, argv);
 }

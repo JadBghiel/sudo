@@ -39,7 +39,7 @@ typedef struct sudo_flags {
     char *group;
     bool env_flag;
     bool s_flag;
-    char **commands;
+    char *commands;
 } sudo_flags_t;
 
 sudo_flags_t *parse_flags(int ac, char **args);
@@ -68,7 +68,6 @@ int get_user_aliases(char aliases[][256], int max_aliases);
 int check_user_in_any_alias(const char *username, char aliases[][256],
     int num_aliases);
 void fill_command(char **argv, int start, int argc, char **command);
-void parse_arguments(int argc, char **argv, char **target_user,
-    char **command);
+sudo_flags_t *parse_arguments(int argc, char **argv);
 
 #endif

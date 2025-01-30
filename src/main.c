@@ -18,8 +18,15 @@
 //    printf("\n");
 //    return 0;
 //}
+int main(int argc, char **argv, char **env)
+{
+    sudo_flags_t *a = parse_arguments(argc, argv);
 
-int main(int argc, char *argv[])
+    printf("%s\n", a->commands);
+    return 0;
+}
+/*
+int main(int argc, char **argv)
 {
     char aliases[100][256];
     int num_aliases;
@@ -42,3 +49,4 @@ int main(int argc, char *argv[])
     execute_command(target_user, command);
     return 0;
 }
+*/
