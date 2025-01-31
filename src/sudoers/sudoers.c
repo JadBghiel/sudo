@@ -57,17 +57,15 @@ int authenticate_user(const char *username)
 {
     const char *encrypted_password;
     char *entered_password;
+    char prompt[256];
     int result;
 
     encrypted_password = get_hashed_password(username);
-    if (!encrypted_password) {
-        fprintf(stderr, "user not found or error retrieving psswrd\n");
-        return 0;
-    }
-    entered_password = getpass("Password: ");
+    sprintf(prompt, "[my_sudo] password for %s: ", username);
+    entered_password = getpass(prompt);
     result = validate_password(entered_password, encrypted_password);
     if (!result) {
-        fprintf(stderr, "authentification failed\n");
+        fprintf(stderr, "Sorry, try again.\n");
     }
     return result;
 }

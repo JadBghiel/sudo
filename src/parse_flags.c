@@ -64,9 +64,11 @@ static void init_flags(sudo_flags_t *to_init)
 {
     to_init->env_flag = false;
     to_init->s_flag = false;
-    to_init->user = NULL;
-    to_init->group = NULL;
+    to_init->current_user = calloc(1, sizeof(user_t));
+    to_init->current_groups = calloc(1, sizeof(groups_t));
     to_init->commands = calloc(BUFSIZ, 1);
+    to_init->current_user->name = NULL;
+    to_init->current_groups->names = calloc(MAX_GROUPS, ALIAS_LENGTH);
 }
 
 void destroy_flags(sudo_flags_t *to_destroy)

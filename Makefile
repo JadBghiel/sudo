@@ -11,7 +11,8 @@ SRC = src/main.c \
 	src/sudoers/password.c \
 	src/sudoers/sudoers.c \
 	src/sudoers/users.c \
-	src/user_data.c
+	src/user_data.c \
+	src/verify_user.c
 
 NAME = my_sudo
 TEST_BIN = unit_tests

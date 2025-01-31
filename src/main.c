@@ -14,7 +14,12 @@ int main(int argc, char **argv, char **env)
 
     validate_user(flags);
     validate_group(flags);
-    execute_command(flags->user, flags->commands);
+    if (ask_password(flags)) {
+        fprintf(stderr, "sudo: 3 incorrect password attempts\n");
+        return 84;
+    }
+    execute_command(flags->current_user->name, flags->current_groups->groups,
+        flags->commands);
     return 0;
 }
 /*

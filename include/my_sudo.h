@@ -7,10 +7,22 @@
 
 #ifndef MY_SUDO
     #define MY_SUDO
+    #define MAX_GROUPS 16
+    #define ALIAS_LENGTH 256
     #include <stdbool.h>
+    #include <sys/stat.h>
     #include "mylist.h"
     #include "common_lib.h"
 
+typedef struct user {
+    char *name;
+    uid_t uid;
+} user_t;
+
+typedef struct group {
+    char **names;
+    gid_t groups[MAX_GROUPS];
+} groups_t;
 
 typedef enum {
     USER,
@@ -35,11 +47,11 @@ typedef struct tuple {
 } tuple_t;
 
 typedef struct sudo_flags {
-    char *user;
-    char *group;
     bool env_flag;
     bool s_flag;
     char *commands;
+    user_t *current_user;
+    groups_t *current_groups;
 } sudo_flags_t;
 
 sudo_flags_t *parse_flags(int ac, char **args);
@@ -59,7 +71,7 @@ const char *get_hashed_password(const char *username);
 //sudoers/password.c:
 int validate_password(const char *entered_password,
     const char *encrypted_password);
-void execute_command(const char *username, char *command);
+void execute_command(const char *username, gid_t *group, char *command);
 uid_t get_uid_from_passwd(const char *username);
 void run_as_user(const char *username, char **const argv);
 
@@ -72,5 +84,7 @@ sudo_flags_t *parse_arguments(int argc, char **argv);
 void destroy_flags(sudo_flags_t *to_destroy);
 int validate_user(sudo_flags_t *flags);
 int validate_group(sudo_flags_t *flags);
+int ask_password(sudo_flags_t *flags);
+char *get_group_by_gid(gid_t current_gid);
 
 #endif

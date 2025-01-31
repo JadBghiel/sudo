@@ -13,9 +13,9 @@ bool add_user(sudo_flags_t *current_flags, char *word, char *next)
 {
     if (current_flags->commands[0] != 0)
         return false;
-    if (current_flags->user != NULL)
+    if (current_flags->current_user->name != NULL)
         return false;
-    current_flags->user = next;
+    current_flags->current_user->name = strdup(next);
     return true;
 }
 
@@ -23,9 +23,9 @@ bool add_group(sudo_flags_t *current_flags, char *word, char *next)
 {
     if (current_flags->commands[0] != 0)
         return false;
-    if (current_flags->group != NULL)
+    if (current_flags->current_groups->names[0] != 0)
         return false;
-    current_flags->group = next;
+    current_flags->current_groups->names[0] = strdup(next);
     return true;
 }
 

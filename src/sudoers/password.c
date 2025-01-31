@@ -5,6 +5,8 @@
 ** password
 */
 #include "my_sudo.h"
+#include <stdio.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 // prompt for the user's password and validate it
@@ -21,11 +23,12 @@ int validate_password(const char *entered_password,
 }
 
 // execute the given command as the specified user
-void execute_command(const char *username, char *current)
+void execute_command(const char *username, gid_t *group, char *current)
 {
     setuid(get_uid_from_passwd(username));
     seteuid(get_uid_from_passwd(username));
-    setgid(0);
+    setgid(group[0]);
+    setegid(group[0]);
     system(current);
 }
 
@@ -38,10 +41,6 @@ uid_t get_uid_from_passwd(const char *username)
     char *user;
 
     file = fopen("/etc/passwd", "r");
-    if (!file) {
-        perror("fopen");
-        return -1;
-    }
     while (fgets(line, sizeof(line), file)) {
         user = strtok(line, ":");
         if (strcmp(user, username) == 0) {
@@ -52,6 +51,28 @@ uid_t get_uid_from_passwd(const char *username)
     }
     fclose(file);
     return uid;
+}
+
+char *get_group_by_gid(gid_t current_gid)
+{
+    FILE *file = fopen("/etc/group", "r");
+    char line[ALIAS_LENGTH];
+    char *line_gid;
+    char *correct_group = NULL;
+    char *group;
+
+    while (fgets(line, sizeof(line), file)) {
+        group = strdup(strtok(line, ":"));
+        strtok(line, ":");
+        line_gid = strtok(line, ":");
+        if (atoi(line_gid) == current_gid) {
+            strtok(NULL, ":");
+            correct_group = group;
+            break;
+        }
+    }
+    fclose(file);
+    return correct_group;
 }
 
 void run_as_user(const char *username, char **const argv)
