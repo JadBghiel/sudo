@@ -66,7 +66,7 @@ static void init_flags(sudo_flags_t *to_init)
     to_init->s_flag = false;
     to_init->user = NULL;
     to_init->group = NULL;
-    to_init->commands = NULL;
+    to_init->commands = calloc(BUFSIZ, 1);
 }
 
 void destroy_flags(sudo_flags_t *to_destroy)
@@ -75,50 +75,53 @@ void destroy_flags(sudo_flags_t *to_destroy)
     free(to_destroy);
 }
 
-static void validate_flags(sudo_flags_t *current)
+static void display_usage(sudo_flags_t *flags)
 {
-    if (current->user == current->commands[0] || current->group ==
-        current->commands[0]) {
-        destroy_flags(current);
-        exit(84);
-    }
-    if (get_flag_fn(current->commands[0]) != NULL) {
-        destroy_flags(current);
-        exit(84);
-    }
+    fprintf(stderr, "usage: ./my_sudo -h\n");
+    fprintf(stderr, "usage: ./my_sudo [-ugEs] [command [args ...]]\n");
+    destroy_flags(flags);
+    exit(84);
 }
 
-bool check_argument(int index, char **args, sudo_flags_t *flags)
+static void validate_flags(sudo_flags_t *current)
+{
+    if (current->commands[0] == 0 && !current->s_flag)
+        display_usage(current);
+}
+
+int check_argument(int index, char **args, sudo_flags_t *flags, int ac)
 {
     add_flag_fn_t current_fn = get_flag_fn(args[index]);
 
+    if (index == ac - 1 && (current_fn == flag_map[USER].add_flag ||
+        current_fn == flag_map[GROUP].add_flag))
+        display_usage(flags);
+    if (args[index][0] == '-' && !current_fn)
+        display_usage(flags);
     if (!current_fn && (get_flag_fn(args[index - 1]) == flag_map[USER].add_flag
         || get_flag_fn(args[index - 1]) == flag_map[GROUP].add_flag))
         return false;
-    if (!current_fn)
+    if (!current_fn) {
+        if (flags->commands[0])
+            strcat(flags->commands, " ");
+        strcat(flags->commands, args[index]);
         return true;
-    if (!current_fn(flags, args[index], args[index + 1]))
-        exit(84);
+    }
+    if (!current_fn(flags, args[index], args[index + 1])) {
+        display_usage(flags);
+    }
     return false;
 }
 
 sudo_flags_t *parse_flags(int ac, char **args)
 {
     sudo_flags_t *flags_present = malloc(sizeof(sudo_flags_t));
-    bool flags_end = false;
-    int i;
 
     init_flags(flags_present);
     if (!flags_present)
         return NULL;
-    for (i = 1; i < (ac - 1) && !flags_end; i++)
-        flags_end = check_argument(i, args, flags_present);
-    if (flags_end)
-        i--;
-    flags_present->commands = calloc(ac - i, sizeof(char *));
-    for (int j = 0; i < ac; i++) {
-        flags_present->commands[j] = args[i];
-        j++;
+    for (int i = 1; i < ac; i++) {
+        check_argument(i, args, flags_present, ac);
     }
     validate_flags(flags_present);
     return flags_present;

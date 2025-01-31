@@ -11,6 +11,8 @@
 
 bool add_user(sudo_flags_t *current_flags, char *word, char *next)
 {
+    if (current_flags->commands[0] != 0)
+        return false;
     if (current_flags->user != NULL)
         return false;
     current_flags->user = next;
@@ -19,6 +21,8 @@ bool add_user(sudo_flags_t *current_flags, char *word, char *next)
 
 bool add_group(sudo_flags_t *current_flags, char *word, char *next)
 {
+    if (current_flags->commands[0] != 0)
+        return false;
     if (current_flags->group != NULL)
         return false;
     current_flags->group = next;
@@ -27,6 +31,8 @@ bool add_group(sudo_flags_t *current_flags, char *word, char *next)
 
 bool add_env(sudo_flags_t *current_flags, char *word, char *next)
 {
+    if (current_flags->commands[0] != 0)
+        return false;
     if (current_flags->env_flag == true)
         return false;
     current_flags->env_flag = true;
@@ -35,6 +41,8 @@ bool add_env(sudo_flags_t *current_flags, char *word, char *next)
 
 bool add_shell(sudo_flags_t *current_flags, char *word, char *next)
 {
+    if (current_flags->commands[0] != 0)
+        return false;
     if (current_flags->s_flag == true)
         return false;
     current_flags->s_flag = true;
