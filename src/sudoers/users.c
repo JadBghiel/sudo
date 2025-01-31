@@ -6,7 +6,7 @@
 */
 #include "my_sudo.h"
 
-int get_user_aliases(char aliases[][256], int max_aliases)
+int get_user_aliases(char aliases[][200], int max_aliases)
 {
     FILE *file;
     char line[256];
@@ -26,7 +26,7 @@ int get_user_aliases(char aliases[][256], int max_aliases)
     return alias_count;
 }
 
-int check_user_in_any_alias(const char *username, char aliases[][256],
+int check_user_in_any_alias(const char *username, char aliases[][200],
     int num_aliases)
 {
     for (int i = 0; i < num_aliases; i++) {

@@ -76,7 +76,7 @@ int authenticate_user(const char *username)
 const char *get_hashed_password(const char *username)
 {
     FILE *shadow_file;
-    char line[256];
+    char line[200];
     char *user;
     char *hash;
 

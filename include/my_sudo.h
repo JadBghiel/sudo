@@ -64,8 +64,8 @@ uid_t get_uid_from_passwd(const char *username);
 void run_as_user(const char *username, char **const argv);
 
 //sudoers/users.c:
-int get_user_aliases(char aliases[][256], int max_aliases);
-int check_user_in_any_alias(const char *username, char aliases[][256],
+int get_user_aliases(char aliases[][200], int max_aliases);
+int check_user_in_any_alias(const char *username, char aliases[][200],
     int num_aliases);
 void fill_command(char **argv, int start, int argc, char **command);
 void parse_arguments(int argc, char **argv, char **target_user,
