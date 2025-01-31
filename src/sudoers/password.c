@@ -5,6 +5,7 @@
 ** password
 */
 #include "my_sudo.h"
+#include <unistd.h>
 
 // prompt for the user's password and validate it
 int validate_password(const char *entered_password,
@@ -20,18 +21,12 @@ int validate_password(const char *entered_password,
 }
 
 // execute the given command as the specified user
-void execute_command(const char *username, char **const argv)
+void execute_command(const char *username, char *current)
 {
-    char command[1024] = "";
-
-    strcat(command, "sudo -u ");
-    strcat(command, username);
-    strcat(command, " ");
-    for (int i = 0; argv[i] != NULL; i++) {
-        strcat(command, argv[i]);
-        strcat(command, " ");
-    }
-    system(command);
+    setuid(get_uid_from_passwd(username));
+    seteuid(get_uid_from_passwd(username));
+    setgid(0);
+    system(current);
 }
 
 // get UID from /etc/passwd file

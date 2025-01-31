@@ -21,7 +21,7 @@ CFLAGS = -Wall
 LDFLAGS = -I./include/ -L./lib/ -llinked_lists -lcrypt
 TEST_LDFLAGS = $(LDFLAGS) --coverage -lcriterion
 
-all: $(NAME)
+all: $(NAME) set_perm
 
 $(NAME): make_libs
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(LDFLAGS)

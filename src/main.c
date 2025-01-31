@@ -7,24 +7,14 @@
 
 #include "my_sudo.h"
 
-//int main(int ac, char **av)
-//{
-//    sudo_flags_t *a;
-//
-//    if (ac < 2)
-//        return 84;
-//    for (int i = 0; a->commands[i]; i++)
-//        printf("%s ", a->commands[i]);
-//    printf("\n");
-//    return 0;
-//}
+
 int main(int argc, char **argv, char **env)
 {
     sudo_flags_t *flags = parse_arguments(argc, argv);
 
     validate_user(flags);
-    printf("%s\n", flags->commands);
-    printf("user: %s\n", flags->user);
+    validate_group(flags);
+    execute_command(flags->user, flags->commands);
     return 0;
 }
 /*

@@ -12,11 +12,11 @@
 #include <time.h>
 #include <unistd.h>
 
-void wrong_user(sudo_flags_t *flags)
+void wrong_entity(sudo_flags_t *flags, char *entity, char *unknown)
 {
     if (flags->user == NULL)
         flags->user = "";
-    fprintf(stderr, "sudo: unknown user %s\n", flags->user);
+    fprintf(stderr, "my_sudo: unknown %s %s\n", entity, unknown);
     destroy_flags(flags);
     exit(84);
 }
@@ -28,19 +28,39 @@ int validate_user(sudo_flags_t *flags)
     FILE *passwd_file = fopen("/etc/passwd", "r");
 
     if (flags->user == NULL) {
-        flags->user = getlogin();
+        flags->user = strdup("root");
         return 1;
     }
     if (!passwd_file)
-        wrong_user(flags);
+        wrong_entity(flags, "user", flags->user);
     while (fgets(line, sizeof(line), passwd_file)) {
         user = strtok(line, ":");
-        printf("%s\n", user);
         if (!strcmp(user, flags->user))
             return 1;
     }
     fclose(passwd_file);
-    wrong_user(flags);
+    wrong_entity(flags, "user", flags->user);
     return 0;
 }
 
+int validate_group(sudo_flags_t *flags)
+{
+    char line[256];
+    char *group;
+    FILE *group_file = fopen("/etc/group", "r");
+
+    if (flags->group == NULL) {
+        flags->user = strdup("root");
+        return 1;
+    }
+    if (!group_file)
+        wrong_entity(flags, "group", flags->group);
+    while (fgets(line, sizeof(line), group_file)) {
+        group = strtok(line, ":");
+        if (!strcmp(group, flags->group))
+            return 1;
+    }
+    fclose(group_file);
+    wrong_entity(flags, "group", flags->group);
+    return 0;
+}
