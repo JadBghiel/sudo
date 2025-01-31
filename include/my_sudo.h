@@ -19,10 +19,10 @@ typedef struct user {
     uid_t uid;
 } user_t;
 
-typedef struct group {
+typedef struct my_group {
     char **names;
     gid_t groups[MAX_GROUPS];
-} groups_t;
+} my_groups_t;
 
 typedef enum {
     USER,
@@ -51,7 +51,7 @@ typedef struct sudo_flags {
     bool s_flag;
     char *commands;
     user_t *current_user;
-    groups_t *current_groups;
+    my_groups_t *current_groups;
 } sudo_flags_t;
 
 sudo_flags_t *parse_flags(int ac, char **args);

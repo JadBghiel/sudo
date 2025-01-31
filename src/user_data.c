@@ -26,9 +26,8 @@ int validate_user(sudo_flags_t *flags)
     FILE *passwd_file = fopen("/etc/passwd", "r");
 
     if (flags->current_user->name == NULL) {
-        flags->current_user->name = getlogin();
-        flags->current_user->uid = get_uid_from_passwd(flags->current_user->
-            name);
+        flags->current_user->name = strdup("root");
+        flags->current_user->uid = 0;
         return 1;
     }
     if (!passwd_file)
@@ -50,8 +49,8 @@ int validate_group(sudo_flags_t *flags)
     FILE *group_file = fopen("/etc/group", "r");
 
     if (flags->current_groups->names[0] == 0) {
-        flags->current_groups->groups[0] = getgid();
-        flags->current_groups->names[0] = get_group_by_gid(getgid());
+        flags->current_groups->groups[0] = 0;
+        flags->current_groups->names[0] = strdup("root");
         return 1;
     }
     if (!group_file)
